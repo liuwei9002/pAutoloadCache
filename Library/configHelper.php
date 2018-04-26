@@ -6,3 +6,4 @@ $aaa = require "Config/cache.php";
 
 \Suyain\Support\Config::put('cache', require('Config/cache.php'));
 \Suyain\Support\Config::put('common', require('Config/common.php'));
+\Suyain\Support\Config::put('swoole', require('Config/swoole.php'));

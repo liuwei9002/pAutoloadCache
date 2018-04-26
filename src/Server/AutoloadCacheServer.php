@@ -118,8 +118,18 @@ class AutoloadCacheServer {
         if (!$obj->hasMethod($data['func'])) {
             throw new \Exception("function is not exist");
         }
-        // @todo 判断参数
+        // 获取方法对象
+        $method = $obj->getMethod($data['func']);
 
+        // 不是public方法
+        if (!$method->isPublic()) {
+            throw new \Exception('the function is note public');
+        }
+
+        // 判断参数个数
+        if ($method->getNumberOfParameters() != count($data['args'])) {
+            throw new \Exception('param number is error');
+        }
     }
 
 }
