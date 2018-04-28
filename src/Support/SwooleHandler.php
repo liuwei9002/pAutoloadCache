@@ -65,7 +65,10 @@ class SwooleHandler
      */
     public static function startServer($serv, $onPacket, $onTask, $onFinish, $taskWorkerNum)
     {
-        $serv->set(['task_worker_num' => $taskWorkerNum]);
+        $serv->set([
+            'task_worker_num' => $taskWorkerNum,
+            'task_ipc_mode' => 3, // task进程与worker进程之间通信方式 1：使用unix socket通信 2：消息队列通信 3：消息队列通信，争抢模式
+        ]);
         $serv->on('packet', $onPacket);
         $serv->on('task', $onTask);
         $serv->on('finish', $onFinish);

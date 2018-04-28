@@ -1,16 +1,14 @@
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 
-//(new Suyain\Demo\demo)->addCache("test_cache");
+$demoObj = new Suyain\Demo\demo();
+$ttl = $demoObj->getTtl('auto_load_cache_key_1');
+if (isset($_GET["debug"])) {
+    echo $ttl;die;
+}
 
-// (new Suyain\Demo\demo)->getList('test_cache');
+//$rand = rand(1, 10);
 
-//$cli = new swoole_client(SWOOLE_SOCK_UDP);
-//$cli->connect('127.0.0.1', '6667', 1);
-//
-//$i = 0;
-//while ($i < 100) {
-//    $cli->send("aaa" . $i);
-//    $i++;
-//}
+$key = "auto_load_cache_key_1";
 
+echo $demoObj->getList($key);

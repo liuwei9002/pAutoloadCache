@@ -7,7 +7,7 @@
  */
 
 return [
-    'ttl_time' => 10,
+    'ttl_time' => 3,
     'sleepTime' => 0.01,
     'lock_type_default' => 'redis'
 ];

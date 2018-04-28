@@ -3,6 +3,7 @@ namespace Suyain\Server;
 
 use Suyain\Cache\AutoloadHandler;
 use Suyain\Cache\CacheLock;
+use Suyain\Support\Config;
 use Suyain\Support\SwooleHandler;
 
 class AutoloadCacheServer {
@@ -27,7 +28,12 @@ class AutoloadCacheServer {
      */
     public function run()
     {
-        SwooleHandler::startServer(self::$serv, [$this, 'onPacket'], [$this, 'onTask'], [$this, 'onFinish'], 4);
+        SwooleHandler::startServer(
+            self::$serv, [$this, 'onPacket'],
+            [$this, 'onTask'],
+            [$this, 'onFinish'],
+            Config::get('swoole.task_worker_num', 4)
+        );
     }
 
     /**

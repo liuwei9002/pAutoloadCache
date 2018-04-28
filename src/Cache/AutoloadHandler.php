@@ -73,7 +73,7 @@ class AutoloadHandler
 
         // 如果需要加载，进行加载
         if ($this->needToLoad($key)) {
-            \logHandler('需要加载数据');
+            \logHandler('需要加载数据' . $key);
             $this->callToLoad($key);
         }
 
@@ -104,11 +104,11 @@ class AutoloadHandler
 //            \logHandler('一次等待缓存数据' . $i);$i++;
             // 判断是否存在key
             if ($this->existKey($key)) {
-                \logHandler('等待缓存重新存在');
+                \logHandler('等待缓存重新存在' . $key);
                 return $this->getCache($key);
             }
         }
-        \logHandler('等待缓存还是不存在，结束等待，返回null');
+        \logHandler('等待缓存还是不存在，结束等待，返回null' . $key);
         return null;
     }
 
@@ -121,8 +121,8 @@ class AutoloadHandler
      */
     public function needToLoad($key)
     {
-        CacheLock::unlock($key);
-        \logHandler('缓存还有' . self::$driverObj->ttl($key) . 's过期');
+//        CacheLock::unlock($key);
+        \logHandler('缓存还有' . self::$driverObj->ttl($key) . 's过期' . $key);
         if (self::$driverObj->ttl($key) <= Config::get('common.ttl_time')
             && $this->getLock($key)
         ) {

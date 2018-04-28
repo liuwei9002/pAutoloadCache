@@ -28,7 +28,7 @@ class RedisStore extends BaseStore implements Store
         return $this->redis->get($key);
     }
 
-    public function put($key, $value, $expir_time)
+    public function put($key, $value, $expir_time = 60)
     {
         $this->redis->set($key, $value, $expir_time);
     }
@@ -51,5 +51,10 @@ class RedisStore extends BaseStore implements Store
     public function unlock($key)
     {
         return $this->redis->del($key);
+    }
+
+    public function incr($key)
+    {
+        $this->redis->incr($key);
     }
 }
