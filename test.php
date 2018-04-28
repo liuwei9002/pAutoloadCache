@@ -11,4 +11,4 @@ if (isset($_GET["debug"])) {
 
 $key = "auto_load_cache_key_1";
 
-echo $demoObj->getList($key);
+echo $demoObj::getListCache($key);

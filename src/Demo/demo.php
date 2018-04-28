@@ -2,26 +2,17 @@
 namespace Suyain\Demo;
 
 use Suyain\Cache\CacheManager;
+use Suyain\Cache\BaseCache;
 
-class demo
+class demo extends BaseCache
 {
     public static function getList($key)
     {
-        \logHandler('开始时间'.microtime(true));
+        usleep(0.05 * 1000000);
+
         $cache = new CacheManager();
-        $data = $cache->store()->get($key, false, 0.1);
-
-        \logHandler("首次获取缓存数据" . $data);
-
-        if (empty($data)) {
-            usleep(0.1 * 1000000);
-            $cache->store()->incr('use_auto_load');
-            $data = $key . '_value';
-            $cache->store()->put($key, $data, 60);
-            \logHandler("获取缓存数据为空，再次获取数据" . $data);
-        }
-        \logHandler('结束时间'.microtime(true));
-        var_dump($data);
+        $cache->store()->incr('use_auto_load');
+        return $key . '_value';
     }
 
     public static function addCache($key)

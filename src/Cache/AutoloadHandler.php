@@ -98,10 +98,10 @@ class AutoloadHandler
         \logHandler('缓存不存在，等待缓存数据');
         $micr = microtime(true);
         $i = 0;
-        while (microtime(true) - $micr <= $waitTime ?: Config::get('common.waitTime')) {
+        while (microtime(true) - $micr <= ($waitTime ?: Config::get('common.waitTime'))) {
             // 等待一段时间
             usleep(Config::get('common.sleepTime') * 1000000);
-//            \logHandler('一次等待缓存数据' . $i);$i++;
+            \logHandler('一次等待缓存数据' . $i);$i++;
             // 判断是否存在key
             if ($this->existKey($key)) {
                 \logHandler('等待缓存重新存在' . $key);
@@ -121,7 +121,7 @@ class AutoloadHandler
      */
     public function needToLoad($key)
     {
-//        CacheLock::unlock($key);
+        CacheLock::unlock($key);
         \logHandler('缓存还有' . self::$driverObj->ttl($key) . 's过期' . $key);
         if (self::$driverObj->ttl($key) <= Config::get('common.ttl_time')
             && $this->getLock($key)
@@ -173,17 +173,17 @@ class AutoloadHandler
      */
     public function setBacktrace($backtrace)
     {
-        if (empty($backtrace[1])) {
+        if (empty($back = $backtrace[3])) {
             $this->callInfo = [];
         }
 
         $this->callInfo = [
-            'class' => isset($backtrace[1]['class']) ? $backtrace[1]['class'] : "",
-            'func'  => isset($backtrace[1]['class']) ? $backtrace[1]['function'] : "",
-            'args'  => isset($backtrace[1]['args']) ? $backtrace[1]['args'] : "",
-            'type'  => isset($backtrace[1]['type']) ?
-                (isset(self::$callTypes[$backtrace[1]['type']])
-                    ? self::$callTypes[$backtrace[1]['type']] : '')
+            'class' => isset($back['class']) ? $back['class'] : "",
+            'func'  => isset($back['class']) ? $back['function'] : "",
+            'args'  => isset($back['args']) ? $back['args'] : "",
+            'type'  => isset($back['type']) ?
+                (isset(self::$callTypes[$back['type']])
+                    ? self::$callTypes[$back['type']] : '')
                 : ""
         ];
     }

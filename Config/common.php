@@ -9,5 +9,6 @@
 return [
     'ttl_time' => 3,
     'sleepTime' => 0.01,
+    'waitTime' => 0.1,
     'lock_type_default' => 'redis'
 ];
