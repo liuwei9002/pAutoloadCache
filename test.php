@@ -12,4 +12,4 @@ $demoObj = new Suyain\Demo\demo();
 
 $key = "auto_load_cache_key_1";
 
-echo $demoObj::getListCache($key);
+var_dump( $demoObj::getListCache($key));

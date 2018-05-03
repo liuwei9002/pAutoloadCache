@@ -12,12 +12,17 @@ use Suyain\Stores\BaseStore;
 
 class RedisStore extends BaseStore implements Store
 {
-    private $redis;
+    private static $redis;
 
     public function __construct($config)
     {
-        $this->redis = new \Redis();
-        $this->redis->connect('127.0.0.1', 6379);
+        if (self::$redis == null) {
+            if (isset($config['cluster']) && $config['cluster']) { // 集群
+                $this->createClusterObject($config['connections']);
+            } else {
+                $this->createSimpleObejct(current($config['connections']));
+            }
+        }
     }
 
     public function get($key, $isAutoLoad = true, $waitTime = 0)
@@ -25,36 +30,52 @@ class RedisStore extends BaseStore implements Store
         if ($isAutoLoad) {
             return $this->getAutoLoad($key, $waitTime, debug_backtrace());
         }
-        return $this->redis->get($key);
+        return self::$redis->get($key);
     }
 
     public function put($key, $value, $expir_time = 60)
     {
-        $this->redis->set($key, $value, $expir_time);
+        self::$redis->set($key, $value, $expir_time);
     }
 
     public function ttl($key)
     {
-        return $this->redis->ttl($key);
+        return self::$redis->ttl($key);
     }
 
     public function exist($key)
     {
-        return $this->redis->exists($key);
+        return self::$redis->exists($key);
     }
 
     public function getLock($key)
     {
-        return $this->redis->setnx($key, 1);
+        return self::$redis->setnx($key, 1);
     }
 
     public function unlock($key)
     {
-        return $this->redis->del($key);
+        return self::$redis->del($key);
     }
 
     public function incr($key)
     {
-        $this->redis->incr($key);
+        self::$redis->incr($key);
     }
+
+    private function createClusterObject($connects)
+    {
+         $connectHost = [];
+         foreach ($connects as $connect) {
+             $connectHost[] = $connect['host'] . ":" . $connect['port'];
+         }
+        self::$redis = new \RedisCluster(null, $connectHost);
+    }
+
+    private function createSimpleObejct($connect)
+    {
+        self::$redis = new \Redis();
+        self::$redis->connect($connect['host'], $connect['port']);
+    }
+
 }

@@ -13,7 +13,6 @@ class demo extends BaseCache
 
         $cache = new CacheManager();
         $cache->store()->incr('use_auto_load');
-        echo $key . '_value';
         return $key . '_value';
     }
 

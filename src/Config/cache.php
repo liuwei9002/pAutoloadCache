@@ -7,7 +7,7 @@
  */
 
 return [
-    'default' => 'redis',
+    'default' => 'memcached',
 
     'stores'  => [
         'redis' => [
@@ -15,17 +15,17 @@ return [
             'cluster' => false,
             'connections' => [
                 [
-                    'host'     => 'dev-redis.a.pa.com',
+                    'host'     => '127.0.0.1',
                     'port'     => 6379,
                     'database' => 0
                 ]
             ]
         ],
         'memcached' => [
-            'dirver' => 'memcached',
+            'driver' => 'memcached',
             'servers' => [
                 [
-                    'host'    => 'dev-mem.a.pa.com',
+                    'host'    => '127.0.0.1',
                     'port'    => 11211,
                     'weight'  => 100
                 ]

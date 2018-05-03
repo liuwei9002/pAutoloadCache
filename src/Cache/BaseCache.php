@@ -38,7 +38,7 @@ class BaseCache
     public static function __callStatic($method, $args)
     {
         if (preg_match('/^\w+Cache$/', $method)) {
-            self::callMethodCache($method, $args);
+            return self::callMethodCache($method, $args);
         }
     }
 

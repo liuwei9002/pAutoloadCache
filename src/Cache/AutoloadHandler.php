@@ -121,7 +121,7 @@ class AutoloadHandler
      */
     public function needToLoad($key)
     {
-        CacheLock::unlock($key);
+//        CacheLock::unlock($key);
         \logHandler('缓存还有' . self::$driverObj->ttl($key) . 's过期' . $key);
         if (self::$driverObj->ttl($key) <= Config::get('common.ttl_time')
             && $this->getLock($key)
