@@ -19,8 +19,8 @@
       "Suyain\\":"src/"
     },
     "files":[
-      "Library/configHelper.php",
-      "Library/Log.php"
+      "src/Library/configHelper.php",
+      "src/Library/Log.php"
     ]
   }
 }

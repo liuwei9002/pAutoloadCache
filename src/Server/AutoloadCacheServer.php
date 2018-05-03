@@ -63,7 +63,7 @@ class AutoloadCacheServer {
         \logHandler('服务端接收到参数' . var_export($data, true));
 
         // 校验数据有效性
-        self::checkParams($data);
+//        self::checkParams($data);
         \logHandler('服务端接收到参数校验通过');
 
         // 关闭自动加载
